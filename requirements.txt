@@ -1,0 +1,4 @@
+python-telegram-bot
+cryptocompare
+python-dotenv
+pytz
