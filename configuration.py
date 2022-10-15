@@ -10,6 +10,7 @@ class ConfigVariables:
         self.memes_path = os.getenv("MEMES_PATH")
         self.meme_state_path = os.getenv("MEMES_STATE_PATH")
         self.chat_ids = self._load_chat_ids()
+        self.quotes_path = os.getenv('QUOTES_PATH', 'data/satoshi_quotes.json')
 
     def _load_chat_ids(self) -> list:
         if not os.path.exists(self.chat_ids_path):
