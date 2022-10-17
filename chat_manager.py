@@ -5,6 +5,7 @@ import pytz
 
 from configuration import config
 from process_memes import MemeManager
+from process_quotes import QuoteManager
 
 from telegram.ext.updater import Updater
 from telegram.update import Update
@@ -29,6 +30,7 @@ class BitcoinTelegramManager:
         self.bot = self.updater.bot
         self.job_queue = self.updater.job_queue
         self.meme_service = MemeManager(config.memes_path, config.meme_state_path)
+        self.quote_service = QuoteManager(config.quotes_path)
         self.__init_handlers()
         self.start_jobs()
 
@@ -37,6 +39,7 @@ class BitcoinTelegramManager:
         self.dispatcher.add_handler(CommandHandler('meme', self.__meme))
         self.dispatcher.add_handler(CommandHandler('reminder', self.__reminder))
         self.dispatcher.add_handler(CommandHandler('set_broadcast', self.__broadcast_daily_reminder, pass_job_queue=True))
+        self.dispatcher.add_handler(CommandHandler('quote', self.__quote))
 
     def start_jobs(self):
         timezone = pytz.timezone("America/Santiago")
@@ -53,6 +56,10 @@ class BitcoinTelegramManager:
     def __reminder(self, update: Update, context: CallbackContext):
         message = self.message_build()
         update.message.reply_text(message)
+
+    def __quote(self, update: Update, context: CallbackContext):
+        quote = self.quote_service.get_random_quote()
+        update.message.reply_text(str(quote))
 
     def message_build(self):
         price = cryptocompare.get_price('BTC', 'USD')
