@@ -18,7 +18,7 @@ class QuoteManager:
     def __init__(self, quotes_path) -> None:
         with open(quotes_path) as file:
             raw_quotes = json.load(file)
-        self.quotes = [Quote.dictionary(dict_quote) for dict_quote in raw_quotes]
+        self.quotes = [Quote.from_dict(dict_quote) for dict_quote in raw_quotes]
 
     def get_random_quote(self) -> Quote:
-        random.choice(self.quotes)
+        return random.choice(self.quotes)
