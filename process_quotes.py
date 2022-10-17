@@ -21,4 +21,4 @@ class QuoteManager:
         self.quotes = [Quote.from_dict(dict_quote) for dict_quote in raw_quotes]
 
     def get_random_quote(self) -> Quote:
-        random.choice(self.quotes)
+        return random.choice(self.quotes)
